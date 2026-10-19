@@ -27,15 +27,22 @@ class App {
             onTimeout: (color) => this.onTimerTimeout(color)
         });
 
+        this.rotateOpponent = true; // Rotate opponent pieces in 2-player mode (for tablet/phone)
+
         // UI Board
         this.ui = new BoardUI('board-container', {
             gameType: this.gameType,
+            rotateOpponent: this.shouldRotateOpponent(),
             onSquareClick: (r, c) => this.handleSquareClick(r, c),
             onMoveAttempt: (from, to) => this.handleMoveAttempt(from, to)
         });
 
         this.initEventListeners();
         this.startNewGame();
+    }
+
+    shouldRotateOpponent() {
+        return this.gameMode === 'friend' && this.rotateOpponent;
     }
 
     getCurrentEngine() {
@@ -328,6 +335,7 @@ class App {
 
     updateUI() {
         const engine = this.getCurrentEngine();
+        this.ui.setRotateOpponent(this.shouldRotateOpponent());
         this.ui.render(engine);
         this.updateEvaluationBar();
         this.updatePlayerCards();
@@ -363,6 +371,9 @@ class App {
         const bottomCard = document.getElementById('player-bottom');
 
         if (!topCard || !bottomCard) return;
+
+        // Rotate top player card in 2-player tablet/mobile mode
+        topCard.classList.toggle('rotate-card', this.shouldRotateOpponent());
 
         const isWhiteBottom = !this.ui.flipped;
         const topColor = isWhiteBottom ? 'b' : 'w';
@@ -679,18 +690,59 @@ class App {
 
         // Sound toggle
         const soundBtn = document.getElementById('btn-toggle-sound');
+        const soundSwitch = document.getElementById('toggle-sound-switch');
         soundBtn?.addEventListener('click', () => {
             const enabled = this.sound.toggle();
             soundBtn.textContent = enabled ? '🔊 Ovoz yoqilgan' : '🔇 Ovoz o\'chirilgan';
+            if (soundSwitch) soundSwitch.checked = enabled;
         });
+
+        // Settings modal open and close
+        const settingsModal = document.getElementById('settings-modal');
+        const openSettings = () => {
+            if (settingsModal) settingsModal.style.display = 'flex';
+        };
+        const closeSettings = () => {
+            if (settingsModal) settingsModal.style.display = 'none';
+        };
+
+        document.getElementById('btn-open-settings')?.addEventListener('click', openSettings);
+        document.getElementById('btn-sidebar-settings')?.addEventListener('click', openSettings);
+        document.getElementById('btn-close-settings')?.addEventListener('click', closeSettings);
+        document.getElementById('btn-close-settings-x')?.addEventListener('click', closeSettings);
+        document.getElementById('btn-apply-settings')?.addEventListener('click', () => {
+            closeSettings();
+            this.updateUI();
+        });
+
+        // Rotate Opponent Toggle (Table / Tablet Mode)
+        const rotateToggle = document.getElementById('toggle-rotate-opponent');
+        if (rotateToggle) {
+            rotateToggle.checked = this.rotateOpponent;
+            rotateToggle.addEventListener('change', (e) => {
+                this.rotateOpponent = e.target.checked;
+                this.updateUI();
+            });
+        }
+
+        // Sound Switch in Settings Modal
+        if (soundSwitch) {
+            soundSwitch.checked = this.sound.enabled;
+            soundSwitch.addEventListener('change', (e) => {
+                this.sound.enabled = e.target.checked;
+                if (soundBtn) {
+                    soundBtn.textContent = this.sound.enabled ? '🔊 Ovoz yoqilgan' : '🔇 Ovoz o\'chirilgan';
+                }
+            });
+        }
 
         // Mode switch (AI vs Friend)
         document.getElementById('select-mode')?.addEventListener('change', (e) => {
             this.gameMode = e.target.value;
             const diffContainer = document.getElementById('difficulty-container');
             const colorContainer = document.getElementById('color-container');
-            if (diffContainer) diffContainer.style.display = this.gameMode === 'ai' ? 'block' : 'none';
-            if (colorContainer) colorContainer.style.display = this.gameMode === 'ai' ? 'block' : 'none';
+            if (diffContainer) diffContainer.style.display = this.gameMode === 'ai' ? 'flex' : 'none';
+            if (colorContainer) colorContainer.style.display = this.gameMode === 'ai' ? 'flex' : 'none';
             this.startNewGame();
         });
 

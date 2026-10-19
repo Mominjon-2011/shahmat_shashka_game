@@ -30,6 +30,9 @@
 
         <!-- Header Actions -->
         <div class="header-actions">
+            <button id="btn-open-settings" class="icon-btn" title="O'yin sozlamalari">
+                ⚙️ Sozlamalar
+            </button>
             <button id="btn-toggle-sound" class="icon-btn" title="Ovozni yoqish/o'chirish">
                 🔊 Ovoz yoqilgan
             </button>
@@ -111,39 +114,81 @@
                 <button id="btn-flip-board" class="btn-secondary">🔄 Doskani burish</button>
                 <button id="btn-undo" class="btn-secondary">↩️ Qaytarish</button>
                 <button id="btn-resign" class="btn-secondary">🏳️ Taslim bo'lish</button>
+                <button id="btn-sidebar-settings" class="btn-secondary btn-full">⚙️ Barcha Sozlamalar</button>
             </div>
 
-            <!-- Game Settings -->
-            <div class="panel-section-title">O'yin Sozlamalari</div>
-            <div class="settings-form">
-                <div class="form-group">
-                    <label for="select-mode">Raqib turi:</label>
+        </aside>
+
+    </main>
+
+    <!-- Dedicated Settings Modal -->
+    <div id="settings-modal" class="modal-overlay">
+        <div class="settings-modal-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 class="modal-title" style="margin: 0; font-size: 22px;">⚙️ O'yin Sozlamalari</h2>
+                <button id="btn-close-settings-x" style="background:none;border:none;color:#94a3b8;font-size:26px;cursor:pointer;line-height:1;">&times;</button>
+            </div>
+
+            <!-- Group 1: Game Mode & Opponent -->
+            <div class="settings-group">
+                <div class="settings-group-title">🎮 O'yin Rejimi va Raqib</div>
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-label-title">Raqib turi</span>
+                        <span class="setting-label-desc">Kompyuter (AI) yoki do'st bilan bitta qurilmada</span>
+                    </div>
                     <select id="select-mode" class="form-select">
                         <option value="ai">🤖 Kompyuterga qarshi</option>
                         <option value="friend">👥 2 kishi (Bitta qurilmada)</option>
                     </select>
                 </div>
-
-                <div id="difficulty-container" class="form-group">
-                    <label for="select-difficulty">Qiyinlik darajasi:</label>
+                <div id="difficulty-container" class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-label-title">Kompyuter qiyinlik darajasi</span>
+                        <span class="setting-label-desc">Sun'iy intellektning tahlil chuqurligi</span>
+                    </div>
                     <select id="select-difficulty" class="form-select">
                         <option value="easy">🟢 Oson (Boshlovchi)</option>
                         <option value="medium" selected>🟡 O'rta (Havaskor)</option>
                         <option value="hard">🔴 Qiyin (Usta)</option>
                     </select>
                 </div>
-
-                <div id="color-container" class="form-group">
-                    <label for="select-color">Toshlaringiz rangi:</label>
+                <div id="color-container" class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-label-title">Sizning toshingiz rangi</span>
+                        <span class="setting-label-desc">Oqlar birinchi yuradi</span>
+                    </div>
                     <select id="select-color" class="form-select">
                         <option value="w" selected>⚪ Oqlar (Birinchi yuradi)</option>
                         <option value="b">⚫ Qoralar</option>
                         <option value="random">🎲 Tasodifiy</option>
                     </select>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="select-time">Vaqt nazorati:</label>
+            <!-- Group 2: Two-Player Device / Tablet Mode (Opponent rotation) -->
+            <div class="settings-group">
+                <div class="settings-group-title">📱 2 Kishilik Stol Ustida / Planshet Rejimi</div>
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-label-title">Raqib toshlarini unga mos burish (180°)</span>
+                        <span class="setting-label-desc">Telefon yoki planshetni stolga qo'yib 2 kishi qarama-qarshi o'ynaganda, raqib toshlari va soati unga to'g'ri ko'rinishi uchun 180° ga buriladi</span>
+                    </div>
+                    <label class="toggle-switch" title="Raqib toshlarini burish">
+                        <input type="checkbox" id="toggle-rotate-opponent" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Group 3: Time Control -->
+            <div class="settings-group">
+                <div class="settings-group-title">⏱️ Vaqt Nazorati (Shaxmat Soati)</div>
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-label-title">Partiya vaqti</span>
+                        <span class="setting-label-desc">Har bir o'yinchi uchun ajratilgan vaqt</span>
+                    </div>
                     <select id="select-time" class="form-select">
                         <option value="1">⚡ 1 daqiqa (Bullet)</option>
                         <option value="3">⏱️ 3 daqiqa (Blitz)</option>
@@ -152,9 +197,16 @@
                         <option value="0">♾️ Cheksiz vaqt</option>
                     </select>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="select-theme">Doska dizayni:</label>
+            <!-- Group 4: Visuals & Sound -->
+            <div class="settings-group">
+                <div class="settings-group-title">🎨 Tashqi Ko'rinish va Ovoz</div>
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-label-title">Doska dizayni</span>
+                        <span class="setting-label-desc">Kataklar mavzusi va yog'och tuzilishi</span>
+                    </div>
                     <select id="select-theme" class="form-select">
                         <option value="classic" selected>Klassik yog'och (Classic)</option>
                         <option value="wood">Qora eman (Dark Wood)</option>
@@ -162,11 +214,24 @@
                         <option value="slate">Zamonaviy qorong'i (Slate)</option>
                     </select>
                 </div>
+                <div class="setting-item">
+                    <div class="setting-label">
+                        <span class="setting-label-title">Tovush effektlari</span>
+                        <span class="setting-label-desc">Tosh qo'yish, urish, shax va g'alaba ovozlari</span>
+                    </div>
+                    <label class="toggle-switch" title="Ovozlarni yoqish/o'chirish">
+                        <input type="checkbox" id="toggle-sound-switch" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
             </div>
 
-        </aside>
-
-    </main>
+            <div style="display: flex; gap: 12px; margin-top: 18px;">
+                <button id="btn-apply-settings" class="btn-primary" style="flex: 1; padding: 12px; font-size: 15px;">✅ Saqlash va Qo'llash</button>
+                <button id="btn-close-settings" class="btn-secondary" style="flex: 1; padding: 12px; font-size: 15px;">Yopish</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Pawn Promotion Modal (Shaxmatda piyodani almashtirish) -->
     <div id="promotion-modal" class="modal-overlay">

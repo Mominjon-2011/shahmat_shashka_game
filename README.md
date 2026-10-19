@@ -41,20 +41,21 @@ Hech qanday qo'shimcha dastur o'rnatish shart emas!
    - **Oson (Boshlovchi)**: yangi o'rganuvchilar uchun;
    - **O'rta (Havaskor)**: o'rtacha kuchga ega;
    - **Qiyin (Usta)**: Minimax va Alpha-Beta qirqish algoritmlari asosida hisoblangan chuqur taktik fikrlovchi kuchli bot.
-2. **👥 Do'st bilan (2 kishi bitta kompyuterda)**:
-   - Navbatma-navbat o'ynash, doskani 180° burish (*Flip board*) imkoniyati.
-3. **⏱️ Vaqt nazorati (Shaxmat soati)**:
+2. **👥 Do'st bilan (2 kishi bitta qurilmada / Stol ustida)**:
+   - **📱 Planshet va Telefon Rejimi (180° burish)**: 2 kishi telefon yoki planshetni stol ustiga qo'yib o'ynaganda, qarama-qarshi o'tirgan o'yinchining toshlari va ma'lumotlari unga to'g'ri ko'rinishi uchun avtomatik ravishda uning tarafiga teskari (180°) qilib buriladi!
+   - Doskani 180° aylantirish (*Flip board*) imkoniyati.
+3. **⚙️ Alohida Sozlamalar Bo'limi**:
+   - Asosiy ekrandagi "⚙️ Sozlamalar" tugmasi orqali rejim, vaqt, qiyinlik, rang, tema va ovozlarni bir joydan oson boshqarish.
+4. **⏱️ Vaqt nazorati (Shaxmat soati)**:
    - 1 daqiqa (*Bullet*), 3 daqiqa (*Blitz*), 5 daqiqa (*Blitz*), 10 daqiqa (*Rapid*) va Cheksiz (*Unlimited*).
    - Vaqt 20 soniyadan kam qolganda ogohlantiruvchi qizil pulsatsiya.
-4. **🎨 Doska Temalari**:
-   - Klassik yog'och (*Classic*)
-   - Qora eman (*Dark Wood*)
-   - Turnir yashil (*Tournament Green*)
-   - Zamonaviy qorong'i (*Slate Dark*)
-5. **🔊 Realistik Ovozlar (Web Audio API)**:
+5. **🎨 Katta va Qulay Doska**:
+   - Ekran bo'yiga moslashuvchan, kattalashtirilgan o'lcham (84vh / 760px gacha).
+   - 4 xil doska dizayni: Klassik yog'och, Qora eman, Turnir yashil, Zamonaviy qorong'i.
+6. **🔊 Realistik Ovozlar (Web Audio API)**:
    - Doska taqillashi, tosh urish zarbasi, shax ogohlantirishi, rokirovka, damka bo'lish va g'alaba akkordlari.
    - Internetga bog'lanmagan, 100% oflayn ishlaydi.
-6. **📱 Boshqaruv**:
+7. **📱 Boshqaruv**:
    - Sichqoncha bilan tortib olib borib qo'yish (*Drag & Drop*)
    - Katakni bosish (*Click-to-move*)
    - Sensorli ekranlar (Telefon va Planshet) uchun to'liq moslashtirilgan.

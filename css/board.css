@@ -1,7 +1,7 @@
 /* Board & Pieces Styling, Themes, and Highlights */
 
 :root {
-    --board-size: min(72vh, 640px, 92vw);
+    --board-size: min(84vh, 760px, 94vw);
     --square-size: calc(var(--board-size) / 8);
     --light-sq: #f0d9b5;
     --dark-sq: #b58863;
@@ -169,6 +169,20 @@
     transform: scale(1.18);
     opacity: 0.95;
     filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.6));
+    transition: none;
+}
+
+.dragging-ghost.rotated-ghost {
+    transform: rotate(180deg) scale(1.18) !important;
+}
+
+/* Rotated Pieces for 2-Player Over-the-Board / Tablet Mode */
+.rotate-opponent .piece.is-top-player {
+    transform: rotate(180deg);
+}
+
+.rotate-opponent .piece.is-top-player:active {
+    transform: rotate(180deg) scale(1.08);
 }
 
 /* Coordinates */

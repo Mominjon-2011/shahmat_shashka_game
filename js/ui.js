@@ -5,6 +5,7 @@ class BoardUI {
         this.container = document.getElementById(containerId);
         this.gameType = options.gameType || 'chess'; // 'chess' or 'checkers'
         this.flipped = false; // false: White bottom, true: Black bottom
+        this.rotateOpponent = options.rotateOpponent || false;
         this.selectedSquare = null; // { row, col }
         this.legalMoves = []; // array of valid destination squares
         this.lastMove = null; // { from: {row, col}, to: {row, col} }
@@ -187,6 +188,13 @@ class BoardUI {
     render(engine) {
         this.boardEl.innerHTML = '';
 
+        if (this.rotateOpponent) {
+            this.container.classList.add('rotate-opponent');
+        } else {
+            this.container.classList.remove('rotate-opponent');
+        }
+
+        const topColor = this.flipped ? 'w' : 'b';
         const displayRows = this.flipped ? [7, 6, 5, 4, 3, 2, 1, 0] : [0, 1, 2, 3, 4, 5, 6, 7];
         const displayCols = this.flipped ? [7, 6, 5, 4, 3, 2, 1, 0] : [0, 1, 2, 3, 4, 5, 6, 7];
 
@@ -233,6 +241,9 @@ class BoardUI {
                 if (piece) {
                     const pieceContainer = document.createElement('div');
                     pieceContainer.className = 'piece';
+                    if (this.rotateOpponent && piece.color === topColor) {
+                        pieceContainer.classList.add('is-top-player');
+                    }
                     pieceContainer.dataset.row = r;
                     pieceContainer.dataset.col = c;
                     pieceContainer.dataset.color = piece.color;
@@ -249,6 +260,15 @@ class BoardUI {
 
                 this.boardEl.appendChild(square);
             }
+        }
+    }
+
+    setRotateOpponent(enabled) {
+        this.rotateOpponent = enabled;
+        if (enabled) {
+            this.container.classList.add('rotate-opponent');
+        } else {
+            this.container.classList.remove('rotate-opponent');
         }
     }
 
@@ -287,6 +307,9 @@ class BoardUI {
                 // Create floating ghost element for dragging
                 ghostEl = pieceEl.cloneNode(true);
                 ghostEl.classList.add('dragging-ghost');
+                if (pieceEl.classList.contains('is-top-player')) {
+                    ghostEl.classList.add('rotated-ghost');
+                }
                 document.body.appendChild(ghostEl);
 
                 const moveGhost = (clientX, clientY) => {
