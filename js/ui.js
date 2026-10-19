@@ -204,7 +204,7 @@ class BoardUI {
                 }
 
                 // Highlighting: Last move from/to
-                if (this.lastMove) {
+                if (this.lastMove && this.lastMove.from && this.lastMove.to) {
                     if ((this.lastMove.from.row === r && this.lastMove.from.col === c) ||
                         (this.lastMove.to.row === r && this.lastMove.to.col === c)) {
                         square.classList.add('last-move');
@@ -254,11 +254,15 @@ class BoardUI {
 
     // Set highlights
     setLastMove(from, to) {
-        this.lastMove = { from, to };
+        if (!from || !to) {
+            this.lastMove = null;
+        } else {
+            this.lastMove = { from, to };
+        }
     }
 
     setCheck(square) {
-        this.checkSquare = square;
+        this.checkSquare = square || null;
     }
 
     // Drag & Drop + Pointer/Touch handlers

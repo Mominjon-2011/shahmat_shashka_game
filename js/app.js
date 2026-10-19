@@ -735,5 +735,9 @@ class App {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    window.app = new App();
+    try {
+        window.app = new App();
+    } catch(err) {
+        console.error('App initialization error:', err);
+    }
 });
