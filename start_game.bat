@@ -1,0 +1,3 @@
+@echo off
+echo Shaxmat va Shashka veb-platformasi ochilmoqda...
+start index.html

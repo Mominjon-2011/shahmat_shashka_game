@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Professional Shaxmat va Shashka Platformasi</title>
+    <meta name="description" content="Professional darajadagi onlayn va oflayn Shaxmat hamda Shashka o'yini. Sun'iy intellekt, xalqaro qoidalar, shaxmat soati va tahlil.">
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="css/board.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="app-header">
+        <div class="brand">
+            <span class="brand-logo">♔</span>
+            <h1>GrandMaster <span>Shaxmat & Shashka</span></h1>
+        </div>
+
+        <!-- Game Switcher -->
+        <div class="game-switch">
+            <button id="select-chess" class="tab-btn active" title="Shaxmat o'yini">
+                <span>♟️</span> Shaxmat
+            </button>
+            <button id="select-checkers" class="tab-btn" title="Shashka o'yini">
+                <span>⚪</span> Shashka
+            </button>
+        </div>
+
+        <!-- Header Actions -->
+        <div class="header-actions">
+            <button id="btn-toggle-sound" class="icon-btn" title="Ovozni yoqish/o'chirish">
+                🔊 Ovoz yoqilgan
+            </button>
+            <button id="btn-rules" class="icon-btn" title="O'yin qoidalarini ko'rish">
+                📖 Qoidalar
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="main-wrapper">
+
+        <!-- Play Area (Board + Players + Timers) -->
+        <section class="play-area">
+
+            <!-- Top Player Card (Black or Opponent) -->
+            <div id="player-top" class="player-card">
+                <div class="player-profile">
+                    <div class="player-avatar" id="player-top-avatar">🤖</div>
+                    <div class="player-meta">
+                        <span id="player-top-name" class="player-name">Kompyuter (O'rta)</span>
+                        <div id="captured-black" class="captured-tray" title="Olingan toshlar"></div>
+                    </div>
+                </div>
+                <div id="player-top-time" class="player-clock">05:00</div>
+            </div>
+
+            <!-- Board & Evaluation Bar Row -->
+            <div class="board-eval-row">
+                <!-- Evaluation Bar -->
+                <div class="eval-bar-container" title="Pozitsiya bahosi">
+                    <div id="eval-bar-fill" class="eval-bar-fill" style="height: 50%;"></div>
+                    <span id="eval-score" class="eval-score">0.0</span>
+                </div>
+
+                <!-- 8x8 Board Container -->
+                <div id="board-container" class="board-container theme-classic"></div>
+            </div>
+
+            <!-- Bottom Player Card (White or User) -->
+            <div id="player-bottom" class="player-card active-turn">
+                <div class="player-profile">
+                    <div class="player-avatar" id="player-bottom-avatar">👤</div>
+                    <div class="player-meta">
+                        <span id="player-bottom-name" class="player-name">Siz (O'yinchi)</span>
+                        <div id="captured-white" class="captured-tray" title="Olingan toshlar"></div>
+                    </div>
+                </div>
+                <div id="player-bottom-time" class="player-clock">05:00</div>
+            </div>
+
+            <!-- AI Thinking Status -->
+            <div id="ai-thinking-indicator" class="ai-thinking-indicator">
+                <div class="spinner"></div>
+                <span>Kompyuter o'ylamoqda...</span>
+            </div>
+
+        </section>
+
+        <!-- Side Control Panel -->
+        <aside class="side-panel">
+
+            <!-- Move History -->
+            <div class="panel-section-title">Yurishlar Tarixi</div>
+            <div class="history-container">
+                <div class="history-header">
+                    <span>#</span>
+                    <span>Oqlar</span>
+                    <span>Qoralar</span>
+                </div>
+                <div id="move-history-list" class="move-history-list">
+                    <div class="empty-history">Hali yurishlar qilinmadi</div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-grid">
+                <button id="btn-new-game" class="btn-primary">⚡ Yangi O'yin</button>
+                <button id="btn-flip-board" class="btn-secondary">🔄 Doskani burish</button>
+                <button id="btn-undo" class="btn-secondary">↩️ Qaytarish</button>
+                <button id="btn-resign" class="btn-secondary">🏳️ Taslim bo'lish</button>
+            </div>
+
+            <!-- Game Settings -->
+            <div class="panel-section-title">O'yin Sozlamalari</div>
+            <div class="settings-form">
+                <div class="form-group">
+                    <label for="select-mode">Raqib turi:</label>
+                    <select id="select-mode" class="form-select">
+                        <option value="ai">🤖 Kompyuterga qarshi</option>
+                        <option value="friend">👥 2 kishi (Bitta qurilmada)</option>
+                    </select>
+                </div>
+
+                <div id="difficulty-container" class="form-group">
+                    <label for="select-difficulty">Qiyinlik darajasi:</label>
+                    <select id="select-difficulty" class="form-select">
+                        <option value="easy">🟢 Oson (Boshlovchi)</option>
+                        <option value="medium" selected>🟡 O'rta (Havaskor)</option>
+                        <option value="hard">🔴 Qiyin (Usta)</option>
+                    </select>
+                </div>
+
+                <div id="color-container" class="form-group">
+                    <label for="select-color">Toshlaringiz rangi:</label>
+                    <select id="select-color" class="form-select">
+                        <option value="w" selected>⚪ Oqlar (Birinchi yuradi)</option>
+                        <option value="b">⚫ Qoralar</option>
+                        <option value="random">🎲 Tasodifiy</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="select-time">Vaqt nazorati:</label>
+                    <select id="select-time" class="form-select">
+                        <option value="1">⚡ 1 daqiqa (Bullet)</option>
+                        <option value="3">⏱️ 3 daqiqa (Blitz)</option>
+                        <option value="5" selected>⏱️ 5 daqiqa (Blitz)</option>
+                        <option value="10">⏳ 10 daqiqa (Rapid)</option>
+                        <option value="0">♾️ Cheksiz vaqt</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="select-theme">Doska dizayni:</label>
+                    <select id="select-theme" class="form-select">
+                        <option value="classic" selected>Klassik yog'och (Classic)</option>
+                        <option value="wood">Qora eman (Dark Wood)</option>
+                        <option value="emerald">Turnir yashil (Tournament)</option>
+                        <option value="slate">Zamonaviy qorong'i (Slate)</option>
+                    </select>
+                </div>
+            </div>
+
+        </aside>
+
+    </main>
+
+    <!-- Pawn Promotion Modal (Shaxmatda piyodani almashtirish) -->
+    <div id="promotion-modal" class="modal-overlay">
+        <div class="modal-card">
+            <h2 class="modal-title">Piyodani almashtirish</h2>
+            <p class="modal-subtitle">Piyodangiz oxirgi xonaga yetib keldi. Yangi figurani tanlang:</p>
+            <div id="promotion-pieces" class="promotion-pieces">
+                <!-- Dynamically populated with Queen, Rook, Bishop, Knight SVGs -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div id="gameover-modal" class="modal-overlay">
+        <div class="modal-card">
+            <h2 id="gameover-title" class="modal-title">O'yin Yakunlandi</h2>
+            <p id="gameover-subtitle" class="modal-subtitle">Natija haqida batafsil ma'lumot</p>
+            <button id="modal-btn-restart" class="btn-primary" style="width: 100%; padding: 12px; font-size: 16px;">
+                🔄 Qayta O'ynash
+            </button>
+        </div>
+    </div>
+
+    <!-- Rules Guide Modal -->
+    <div id="rules-modal" class="modal-overlay">
+        <div class="modal-card" style="max-width: 580px;">
+            <h2 class="modal-title">O'yin Qoidalari</h2>
+            <div class="rules-content">
+                <h3>♟️ Shaxmat Qoidalari</h3>
+                <ul>
+                    <li><strong>Shoh:</strong> Har tarafga bitta katak yura oladi. Shohga hujum qilinsa — bu "Shax". Agar qochish yo'li bo'lmasa — "Mot" va o'yin tugaydi.</li>
+                    <li><strong>Farzin (Vazir):</strong> Istalgan yo'nalishda (diagonal va to'g'ri) xohlagancha masofaga yuradi.</li>
+                    <li><strong>To'ra (Rux):</strong> Faqat to'g'ri chiziq bo'ylab (vertikal va gorizontal) yuradi.</li>
+                    <li><strong>Fil:</strong> Faqat o'z rangidagi diagonallar bo'ylab yuradi.</li>
+                    <li><strong>Ot:</strong> "Г" harfi shaklida yuradi va boshqa toshlarning ustidan sakrab o'ta oladi.</li>
+                    <li><strong>Piyoda:</strong> Faqat oldinga 1 katak (boshida 2 katak) yuradi, toshlarni esa oldi diagonal bo'yicha uradi. Oxirgi 8-qatorga yetganda Farzin, To'ra, Fil yoki Otga aylanadi.</li>
+                    <li><strong>Rokirovka:</strong> Shoh va To'raning bir vaqtning o'zida amalga oshiriladigan maxsus himoya yurishi.</li>
+                </ul>
+
+                <h3>⚪ Shashka (Klassik / Ruscha) Qoidalari</h3>
+                <ul>
+                    <li>O'yin 8x8 qora kataklarda o'ynaladi.</li>
+                    <li><strong>Oddiy toshlar:</strong> Faqat oldinga diagonal bo'ylab 1 katak yuradi.</li>
+                    <li><strong>Urish:</strong> Oddiy toshlar oldinga ham, <em>orqaga ham</em> raqib toshidan sakrab urishi mumkin!</li>
+                    <li><strong>Majburiy urish:</strong> Agar raqib toshini urish imkoni bo'lsa, urish <u>shart</u> (majburiy).</li>
+                    <li><strong>Ketma-ket urish (Multi-jump):</strong> Bitta tosh bilan ketma-ket bir nechta raqib toshini urish mumkin.</li>
+                    <li><strong>Damka:</strong> Oxirgi qatorga yetib borgan tosh Damkaga aylanadi. Damka butun diagonal bo'ylab uchadi va uzoq masofadan ham urish imkoniga ega!</li>
+                </ul>
+            </div>
+            <button id="btn-close-rules" class="btn-secondary" style="width: 100%; margin-top: 20px;">Yopish</button>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Modules -->
+    <script src="js/audio.js"></script>
+    <script src="js/chess-engine.js"></script>
+    <script src="js/chess-ai.js"></script>
+    <script src="js/checkers-engine.js"></script>
+    <script src="js/checkers-ai.js"></script>
+    <script src="js/timer.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
